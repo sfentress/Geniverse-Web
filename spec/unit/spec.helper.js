@@ -7,3 +7,17 @@ function createGOrganismFromJSONString(jsonString){
     gOrganism.imageURL = jsonOrg.imageURL;
     return gOrganism;
 }
+
+function generateDragonWithCallback(callback, failure){
+    var org = createMockGOrganism();
+    callback(org);
+}
+
+function createMockGOrganism(){
+    var gOrganism = new Object();
+    gOrganism.name = "test";
+    gOrganism.alleles = "test";
+    gOrganism.sex = "test";
+    gOrganism.imageURL = "test";
+    return gOrganism;
+}
