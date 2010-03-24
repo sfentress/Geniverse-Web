@@ -4,19 +4,17 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title>Geniverse demos: Dragon chatting</title>
-  <script src="/geniverse/geniverse/geniverse.nocache.js" type="text/javascript"></script>
   
   <script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>
   <script src="/chat/comet.js" type="text/javascript"></script>	
   <script src="lib/json2.js" type="text/javascript"></script>
+  <script src="lib/jquery-tooltip/jquery.tooltip.min.js" type="text/javascript"></script>
   
   <script src="/chat/geniversechat.js" type="text/javascript"></script>
-
-  <script src="lib/jquery-tooltip/jquery.tooltip.min.js" type="text/javascript"></script>
-  <!--
-  <script src="/soapbox.js" type="text/javascript"></script>
-  -->
+  <script src="/geniverse/geniverse/geniverse.nocache.js" type="text/javascript"></script>
   
+  <script src="lib/geniverse-gwt.js" type="text/javascript"></script>
+
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
   <link rel="stylesheet" href="css/jquery.tooltip.css" type="text/css" media="screen">
 
@@ -207,7 +205,7 @@
 		if (message.messageObject != null && message.messageObject.dragon != null){ 
 			// need to set image, as createGOrganismFromJSONString currently demands it
 			message.messageObject.dragon.imageURL = message.messageObject.image;
-			var realDragon = createGOrganismFromJSONString(JSON.stringify(message.messageObject.dragon));
+			var realDragon = GenGWT.createDragon(message.messageObject.dragon);
 			addDragonToPublicPool(realDragon, message.messageObject.image)
 		}
     }
