@@ -4,7 +4,8 @@ load('./spec/lib/jspec.js')
 load('./spec/lib/jspec.xhr.js')
 load('./spec/lib/jspec.jquery.js')
 load('./spec/support/junit.xml.js')
-load('lib/etorki.js')
+load('lib/geniverse-gwt.js')
+load('lib/json2.js')
 load('spec/unit/spec.helper.js')
 
 specResults = JSpec

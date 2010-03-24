@@ -5,13 +5,13 @@
 		<script src="./lib/jspec.js"></script>
 		<script src="./lib/jspec.jquery.js"></script>
 		<script src="./lib/jspec.xhr.js"></script>
-		<script src="../lib/etorki.js"></script>
+		<script src="../lib/geniverse-gwt.js"></script>
+		<script src="../lib/json2.js"></script>
 		<script src="unit/spec.helper.js"></script>
 		<script>
 			function runSuites() {
 				JSpec
 				.exec('unit/spec.js')
-				.exec('unit/jquery_spec.js')
 				.run({ reporter: JSpec.reporters.Server, verbose: true, failuresOnly: true, fixturePath: '/spec/fixtures' })
 				.report()
 			}
