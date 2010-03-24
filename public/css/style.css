@@ -1,5 +1,5 @@
 body {
-  background-color:   #c3f7ad;
+  background-color:   #ddfae0;
   margin:       0;
   padding:      0;
   font:         16px/1.5 Helvetica, Arial, sans-serif;
@@ -59,7 +59,7 @@ ul, li {
 #publicPoolWrapper {
 	clear: right;
 	float: right;
-        background-color: #c9eb70;
+        background-color: #ddfae0;
 }
 
 #publicPool {
@@ -69,7 +69,7 @@ ul, li {
 #clientListWrapper {
 	clear: right;
 	float: right;
-        background-color: #c9eb70;
+        background-color: #ddfae0;
 }
 
 #clientListDiv {
@@ -77,7 +77,7 @@ ul, li {
 }
 
 #messagingWrapper {
-        background-color: #c9eb70;
+        background-color: #ddfae0;
 }
 
 #streamContainer {
@@ -87,7 +87,7 @@ ul, li {
 #myDragonPoolWrapper {
 	clear: left;
 	float: left;
-       background-color:   #c9eb70;
+       background-color:   #ddfae0;
 }
 
 #dragonPool {
@@ -97,7 +97,7 @@ ul, li {
 #dragonBreedingWrapper {
 	clear: left;
 	float: left;
-		background-color:   #c9eb70;
+		background-color:   #ddfae0;
 }
 
 #dragonBreeding {
