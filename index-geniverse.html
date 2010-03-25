@@ -121,7 +121,9 @@
 		    } 
 		});
 		
-		$('#'+divid).append(dragonImage);
+		div = $('#'+divid);
+		div.append(dragonImage);
+		div.animate({ scrollTop: div.height() }, 1000);
 		
 		return dragonImage;
 	}
