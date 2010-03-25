@@ -17,3 +17,21 @@ describe 'Geniverse-GWT mock functions'
 	end
 end
 
+describe 'Geniverse-Views'
+    before_each
+        $('body').append($('<div id="test">'));
+    end
+    
+    after_each
+        $('#test').remove();
+    end
+    
+    it 'loadViews() can inject views into specified divs'
+      breedingWrapper = $('<div id="dragonBreedingWrapper">');
+      $('#test').append(breedingWrapper);
+      $('#dragonBreeding').html().should.be null
+      GenView.loadViews(fixture('geniverse-views.html'));
+      $('#dragonBreeding').html().should.not.be null
+	end
+end
+
