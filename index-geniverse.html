@@ -26,22 +26,27 @@
     
     GenView.init(function(){
         startChannel = GenChatService.initChat();
-        alleleString = (startChannel == "/woo") ? "a:h,b:h" : "a:H,b:H";
         init2();
     });
     
     $(function(){
         $('#enterUsername').submit(function() {
             setTimeout(function(){
-                GenChatService.unsubscribe(startChannel);
-                currentChannel = GenChatService.subscribe(["/woo", "/weee"]);
-                $('h1').append(currentChannel);
-                GenView.setOrgPostingChannel(currentChannel + "org");
-                addDragonPair();
-                $('#createDragons').unbind('click');
-                $('#createDragons').click(function(){
+                GenChatService.findChannelWithLeastClients(["/NoHorns", "/2Horns"], function(channel){
+                    GenChatService.unsubscribe(startChannel);
+                    currentChannel = GenChatService.subscribe(channel);
+                    $('h1').append(currentChannel);
+                    GenView.setOrgPostingChannel(currentChannel + "org");
+                    
+                    alleleString = (channel == "/NoHorns") ? "a:h,b:h" : "a:H,b:H";
+                    
                     addDragonPair();
-                })
+                    $('#createDragons').unbind('click');
+                    $('#createDragons').click(function(){
+                        addDragonPair();
+                    })
+                });
+                
             },500);
         });
     })
