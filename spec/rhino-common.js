@@ -5,7 +5,7 @@ load('./spec/lib/jspec.xhr.js')
 load('./spec/lib/jspec.jquery.js')
 load('./spec/support/junit.xml.js')
 load('lib/geniverse-gwt.js')
-load('lib/geniverse-views.js')
+load('lib/geniverse-view-service.js')
 load('lib/json2.js')
 load('spec/unit/spec.helper.js')
 

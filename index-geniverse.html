@@ -11,10 +11,10 @@
   <script src="lib/jquery-tooltip/jquery.tooltip.js" type="text/javascript"></script>
   
   <script src="/chat/geniversechat.js" type="text/javascript"></script>
-  <script src="/geniverse/geniverse/geniverse.nocache.js" type="text/javascript"></script>
+  <script src="/dev/geniverse/geniverse.nocache.js" type="text/javascript"></script>
   
   <script src="lib/geniverse-gwt.js" type="text/javascript"></script>
-  <script src="lib/geniverse-views.js" type="text/javascript"></script>
+  <script src="lib/geniverse-view-service.js" type="text/javascript"></script>
   <script src="lib/geniverse-chat-service.js" type="text/javascript"></script>
 
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
@@ -34,13 +34,13 @@
             $('#loading').find('h2').html("LOADING...");
             $('#loading').show();
             setTimeout(function(){
-                GenChatService.findChannelWithLeastClients(["/NoHorns", "/2Horns"], function(channel){
+                GenChatService.findChannelWithLeastClients(["/dev-NoHorns", "/dev-2Horns"], function(channel){
                     GenChatService.unsubscribe(startChannel);
                     currentChannel = GenChatService.subscribe(channel);
                     $('h1').append(currentChannel);
                     GenView.setOrgPostingChannel(currentChannel + "org");
                     
-                    alleleString = (channel == "/NoHorns") ? "a:h,b:h" : "a:H,b:H";
+                    alleleString = (channel == "/dev-NoHorns") ? "a:h,b:h" : "a:H,b:H";
                     
                     addDragonPair();
                     $('#createDragons').unbind('click');
