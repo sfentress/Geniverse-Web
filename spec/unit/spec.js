@@ -52,20 +52,24 @@ describe 'Geniverse-View-Service'
               $('#dragonPool').html().should.not.be null
         	end
         	
-        	it 'create-dragon button creates dragons (pending)'
-              // $('#createDragons').html().should.not.be null
-              // init2();
-              // jsonSize(GenView.allDragons).should.be 0
-              // $('#createDragons').click();
-              // jsonSize(GenView.allDragons).should.be 1
+        	it 'create-dragon button creates dragons'
+              stub(jQuery.fn, "height").and_return("");
+              stub(jQuery.fn, "animate").and_return("");
+              $('#createDragons').html().should.not.be null
+              init2();
+              jsonSize(GenView.allDragons).should.be 0
+              $('#createDragons').click();
+              jsonSize(GenView.allDragons).should.be 1
         	end
         	
-        	it 'create-dragon button adds dragon image to pool (pending)'
-              // $('#createDragons').html().should.not.be null
-              // init2();
-              // $('#dragonPool').find('img').html().should.be null
-        	  // $('#createDragons').click();
-        	  // $('#dragonPool').find('img').html().should.not.be null
+        	it 'create-dragon button adds dragon image to pool'
+              stub(jQuery.fn, "height").and_return("");
+              stub(jQuery.fn, "animate").and_return("");
+              $('#createDragons').html().should.not.be null
+              init2();
+              $('#dragonPool').find('img').html().should.be null
+              $('#createDragons').click();
+              $('#dragonPool').find('img').html().should.not.be null
         	end
     	end
     	
