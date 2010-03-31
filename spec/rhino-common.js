@@ -1,12 +1,14 @@
 load('./spec/support/env.rhino.js')
-load('./spec/support/jquery.js')
+load('lib/jquery.js')
 load('./spec/lib/jspec.js')
 load('./spec/lib/jspec.xhr.js')
 load('./spec/lib/jspec.jquery.js')
 load('./spec/support/junit.xml.js')
 load('lib/geniverse-gwt.js')
 load('lib/geniverse-view-service.js')
+load('lib/geniverse-chat-service.js')
 load('lib/json2.js')
+load('lib/jquery-tooltip/jquery.tooltip.js')
 load('spec/unit/spec.helper.js')
 
 specResults = JSpec
