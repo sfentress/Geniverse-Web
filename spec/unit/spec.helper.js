@@ -21,14 +21,15 @@ function generateDragonWithSex(sex, callback){
 
 function createMockGOrganism(){
     var gOrganism = new Object();
-    gOrganism.name = "test";
-    gOrganism.alleles = "test";
-    gOrganism.sex = "test";
-    gOrganism.imageURL = "test";
-    gOrganism.metaInfo = {
-        put: function(){}
-    };
-    gOrganism.metaInfo.stringMap = {};      // this should be retired when metaInfo is fixed
+    var rand = Math.floor(Math.random() * 10000);
+    gOrganism.name = "test"+rand;
+    gOrganism.alleles = "test"+rand;
+    gOrganism.sex = "test"+rand;
+    gOrganism.imageURL = "test"+rand;
+    // gOrganism.metaInfo = {
+    //         put: function(){}
+    //     };
+    //     gOrganism.metaInfo.stringMap = {};      // this should be retired when metaInfo is fixed
     return gOrganism;
 }
 
