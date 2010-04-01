@@ -1,7 +1,11 @@
+# all dot files
 ._*
-spec/._*
+css/._*
+css/img/._*
 lib/._*
 lib/facebox/._*
 lib/nyroModal/._*
-css/._*
-css/img/._*
+spec/._*
+
+# jspec test results
+test-reports/jspec.xml
