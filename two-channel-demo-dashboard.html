@@ -58,9 +58,25 @@
 
     $(function(){
         $('#merge').click(function(){
+            // tell all users in channel[1] to switch to channel[0]
             var command = new GenChatService.Command();
-            command.unsubscribe.push("test");
-            GenChatService.postAdminCommand(allChannels[0], command);
+            command.unsubscribe.push(allChannels[1]);
+            command.subscribe.push(allChannels[0]);
+            GenChatService.postAdminCommand(allChannels[1], command);
+        });
+        
+        freezeScreens = function(channel){
+            var command = new GenChatService.Command();
+            command.freeze = true;
+            GenChatService.postAdminCommand(channel, command);
+        }
+        
+        $('#left-freeze').click(function(){
+            freezeScreens(allChannels[0]);
+        });
+        
+        $('#right-freeze').click(function(){
+            freezeScreens(allChannels[1]);
         });
     });
   </script>
@@ -92,6 +108,11 @@
                       </div>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button id="left-freeze">Freeze screens</button>
+                    </td>
+                </tr>
             </table>
           </div>
           <div id="right" style="float: right; clear: right height: 320;">
@@ -112,11 +133,16 @@
                         </div>
                       </td>
                   </tr>
+                  <tr>
+                      <td>
+                          <button id="right-freeze">Freeze screens</button>
+                      </td>
+                  </tr>
                  </table>
             </div>
       </div>
       <div id="controls" style="clear: right;">
-          <button id="merge">Merge rooms</button>
+          <button id="merge">Merge rooms</button><br>
       </div>
       <script type="text/javascript">
       </script>
