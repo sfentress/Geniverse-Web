@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>Faye demo: chat client</title>
+  <script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>
+
+  <script src="/chat/comet.js" type="text/javascript"></script>
+  <script src="/chat/geniversechat.js" type="text/javascript"></script>
+  <script src="lib/geniverse-chat-service.js" type="text/javascript"></script>
+  <script src="lib/geniverse-view-service.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    var allChannels = ["A", "B"];
+
+    $(function(){
+       $('#left').find('h3').html(allChannels[0]);
+       $('#right').find('h3').html(allChannels[1]);
+    });
+
+    GenView.init(function(){
+      GenChatService.setUsername("Admin");
+      startChannel = GenChatService.initChat();
+
+      setupClientLists = function(channel, list){
+          this._channel = channel;
+          this._list = list;
+          var self = this;
+          GenChatService.subscribeToUserList(this._channel, function(message){
+                var clients = [].concat(message);
+                var out = "";
+                for (var i = 0; i < clients.length; i++) {
+                  out += "<li>" + clients[i] + "</li>";
+                }
+                $('#'+self._list).html(out);
+          });
+       }
+       new setupClientLists(allChannels[0], "left-clientList");
+       new setupClientLists(allChannels[1], "right-clientList");
+
+       setupChatListener = function(channel, list){
+           this._channel = channel;
+             this._list = list;
+             var self = this;
+             GenChatService.subscribe(this._channel, function(message){
+                var messageString = '<b>' + message.user + ':</b> '+message.message;
+                if (message.messageObject != null && message.messageObject.image != null)
+                messageString = '<div><img style="float: left; margin: 5px;" src="'+message.messageObject.image+'" width="55" height="55">' + messageString + '</div>';
+                $('#'+self._list).append('<li style="overflow: auto;">' + messageString + '</li>');
+                $('#streamContainer').animate({ scrollTop: this._stream.height() }, 1000);
+                $('#log').append(self._channel + "|"+message.user+"|"+message.message+"<br>");
+             });
+       }
+       new setupChatListener(allChannels[0], "left-stream")
+       new setupChatListener(allChannels[1], "right-stream")
+
+    });
+
+    $(function(){
+        $('#merge').click(function(){
+            // tell all users in channel[1] to switch to channel[0]
+            var command = new GenChatService.Command();
+            command.unsubscribe.push(allChannels[1]);
+            command.subscribe.push(allChannels[0]);
+            GenChatService.postAdminCommand(allChannels[1], command);
+        });
+
+        freezeScreens = function(channel, freeze){
+            var command = new GenChatService.Command();
+            command.freeze = freeze;
+            command.unfreeze = !freeze;
+            GenChatService.postAdminCommand(channel, command);
+        }
+
+        $('#left-unfreeze').hide();
+        $('#right-unfreeze').hide();
+
+        $('#left-freeze').click(function(){
+            freezeScreens(allChannels[0], true);
+            $('#left-freeze').hide();
+            $('#left-unfreeze').show();
+        });
+
+        $('#right-freeze').click(function(){
+            freezeScreens(allChannels[1], true);
+            $('#right-freeze').hide();
+            $('#right-unfreeze').show();
+        });
+
+        $('#left-unfreeze').click(function(){
+            freezeScreens(allChannels[0], false);
+            $('#left-freeze').show();
+            $('#left-unfreeze').hide();
+        });
+
+        $('#right-unfreeze').click(function(){
+            freezeScreens(allChannels[1], false);
+            $('#right-freeze').show();
+            $('#right-unfreeze').hide();
+        });
+    });
+  </script>
+
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+</head>
+<body style="background-color: #BDC5F2;">
+    <div class="container">
+
+      <h1><em>Geniverse</em> | <em>dashboard</em></h1>
+
+      <div id="app">
+          <div id="left" style="float: left; clear: left; height: 320;">
+              <h3></h3>
+            <table>
+                <tr>
+                    <td>
+                        <div style="width: 250; height:320; border:1px solid #9dba4f; margin-left: auto; margin-right: auto; overflow: auto; margin-bottom: 10px">
+                        <ul id="left-stream">
+                        </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <label>Members</label>
+                      <div style="width: 150; height:310; border:1px solid #9dba4f; overflow: auto;">
+                        <ul id="left-clientList">
+                        </ul>
+                      </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="left-freeze">Lock screens</button>
+                        <button id="left-unfreeze">Unlock screens</button>
+                    </td>
+                </tr>
+            </table>
+          </div>
+          <div id="right" style="float: right; clear: right height: 320;">
+              <h3></h3>
+              <table>
+                  <tr>
+                      <td>
+                          <div style="width: 250; height:320; border:1px solid #9dba4f; margin-left: auto; margin-right: auto; overflow: auto; margin-bottom: 10px">
+                          <ul id="right-stream">
+                          </ul>
+                          </div>
+                      </td>
+                      <td>
+                          <label>Members</label>
+                        <div style="width: 150; height:310; border:1px solid #9dba4f; overflow: auto;">
+                          <ul id="right-clientList">
+                          </ul>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <button id="right-freeze">Lock screens</button>
+                          <button id="right-unfreeze">Unlock screens</button>
+                      </td>
+                  </tr>
+                 </table>
+            </div>
+      </div>
+      <div id="controls" style="clear: right;">
+          <button id="merge">Merge rooms</button><br>
+      </div>
+      <div style="text-align: left;">
+          Log:
+          <div id="log" style="clear: right; height: 200; width: 500; overflow: auto; background-color: #FFFFFF;">
+          </div>
+    </div>
+      <script type="text/javascript">
+      </script>
+    </div>
+</body>
+</html>
