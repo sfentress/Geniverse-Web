@@ -49,6 +49,7 @@
                 messageString = '<div><img style="float: left; margin: 5px;" src="'+message.messageObject.image+'" width="55" height="55">' + messageString + '</div>';
                 $('#'+self._list).append('<li style="overflow: auto;">' + messageString + '</li>');
                 $('#streamContainer').animate({ scrollTop: this._stream.height() }, 1000);
+                $('#log').append(self._channel + "|"+message.user+"|"+message.message+"<br>");
              });
        }
        new setupChatListener(allChannels[0], "left-stream")
@@ -64,19 +65,39 @@
             command.subscribe.push(allChannels[0]);
             GenChatService.postAdminCommand(allChannels[1], command);
         });
-        
-        freezeScreens = function(channel){
+
+        freezeScreens = function(channel, freeze){
             var command = new GenChatService.Command();
-            command.freeze = true;
+            command.freeze = freeze;
+            command.unfreeze = !freeze;
             GenChatService.postAdminCommand(channel, command);
         }
-        
+
+        $('#left-unfreeze').hide();
+        $('#right-unfreeze').hide();
+
         $('#left-freeze').click(function(){
-            freezeScreens(allChannels[0]);
+            freezeScreens(allChannels[0], true);
+            $('#left-freeze').hide();
+            $('#left-unfreeze').show();
         });
-        
+
         $('#right-freeze').click(function(){
-            freezeScreens(allChannels[1]);
+            freezeScreens(allChannels[1], true);
+            $('#right-freeze').hide();
+            $('#right-unfreeze').show();
+        });
+
+        $('#left-unfreeze').click(function(){
+            freezeScreens(allChannels[0], false);
+            $('#left-freeze').show();
+            $('#left-unfreeze').hide();
+        });
+
+        $('#right-unfreeze').click(function(){
+            freezeScreens(allChannels[1], false);
+            $('#right-freeze').show();
+            $('#right-unfreeze').hide();
         });
     });
   </script>
@@ -84,7 +105,7 @@
 
   <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
 </head>
-<body>
+<body style="background-color: #BDC5F2;">
     <div class="container">
 
       <h1><em>Geniverse</em> | <em>dashboard</em></h1>
@@ -110,7 +131,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <button id="left-freeze">Freeze screens</button>
+                        <button id="left-freeze">Lock screens</button>
+                        <button id="left-unfreeze">Unlock screens</button>
                     </td>
                 </tr>
             </table>
@@ -135,7 +157,8 @@
                   </tr>
                   <tr>
                       <td>
-                          <button id="right-freeze">Freeze screens</button>
+                          <button id="right-freeze">Lock screens</button>
+                          <button id="right-unfreeze">Unlock screens</button>
                       </td>
                   </tr>
                  </table>
@@ -144,6 +167,11 @@
       <div id="controls" style="clear: right;">
           <button id="merge">Merge rooms</button><br>
       </div>
+      <div style="text-align: left;">
+          Log:
+          <div id="log" style="clear: right; height: 200; width: 500; overflow: auto; background-color: #FFFFFF;">
+          </div>
+    </div>
       <script type="text/javascript">
       </script>
     </div>
