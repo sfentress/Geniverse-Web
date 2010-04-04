@@ -27,7 +27,6 @@
     var alleleString;
     GenView.init(function(){
         startChannel = GenChatService.initChat();
-        GenChatService.subscribeToAdminChannel(startChannel);
 
         init2();
     });
@@ -40,7 +39,8 @@
                 GenChatService.findChannelWithLeastClients(["/A", "/B"], function(channel){
                     GenChatService.unsubscribe(startChannel);
                     currentChannel = GenChatService.subscribe(channel);
-                    $('h1').append(currentChannel);
+                    GenChatService.subscribeToAdminChannel(channel);
+                    $('h2').append(" "+currentChannel);
                     GenView.setOrgPostingChannel(currentChannel + "org");
 
                     alleleString = (channel == "/A") ? "a:h,b:h" : "a:H,b:H";
