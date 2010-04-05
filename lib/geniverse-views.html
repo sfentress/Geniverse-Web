@@ -25,8 +25,8 @@
 		<button id="addChildToPool">Add child to pool</button>
 	</p>
 </div>
-<div id="publicPoolWrapper">
-	<label>Public Dragon Pool</label>
+<div id="publicPoolWrapper" style="width:220;">
+	<label>Public Dragon Pool</label><span class="filterButton" style="float: right;"><small><a>filter</a></small></span>
 	<div id="publicPool" style="width:220; height:220; border:1px solid #9dba4f; overflow: auto;">
 		
 	</div>
@@ -34,13 +34,26 @@
 		<button id="addDragonToMyPool">Add dragon to private pool</button>
 	</p>
 </div>
-<div id="myDragonPoolWrapper">
-	<label>My Dragon Pool</label>
+<div id="myDragonPoolWrapper" class="filterButton" style="width:220;">
+	<label>My Dragon Pool</label><span style="float: right;"><small><a>filter</a></small></span>
 	<div id="dragonPool" style="width:220; height:220; border:1px solid #9dba4f; overflow: auto;">
 	</div>
 	    <button id="createDragons">Create dragons</button>
-	    <button id="addDragonToBreeding">Add to breeding</button></br>
+	    <button id="addDragonToBreeding">Add to breeding</button><br>
 	    <button id="addDragon">Add dragon to chat</button>
+</div>
+<div id="dragonFilter" style="width:150; border: 3px solid blue; background-color: white; padding: 5px;">
+    <label>Show dragons:</label>
+    <form>
+        <input type="checkbox" checked value="noWings"/>No wings<br/>
+        <input type="checkbox" checked value="wings"/>Wings<br/><br/>
+        <input type="checkbox" checked value="noLegs"/>No legs<br/>
+        <input type="checkbox" checked value="2legs"/>2 legs<br/>
+        <input type="checkbox" checked value="4legs"/>4 legs<br/><br/>
+        <input type="checkbox" checked value="alive"/>Alive<br/>
+        <input type="checkbox" checked value="dead"/>Dead<br/><br/>
+        <input type="submit" value="Filter"/>
+    </form>
 </div>
 <div id="clientListWrapper">
 	<label>Who is on?</label>
