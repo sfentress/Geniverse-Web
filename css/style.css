@@ -8,13 +8,23 @@ body {
 
 .container {
   text-align:   center;
-  width:        900px;
-  margin:       40px auto;
+  width:        950px;
+  margin:       35px auto;
 }
 
-h1, form {
+h1 {
   text-align:   left;
   width:        400px;
+  background:   #fff;
+  padding:      24px;
+  border:       1px solid #9dba4f;
+  margin-left: auto ;
+  margin-right: auto ;
+}
+
+form {
+  text-align:   left;
+  width:        290px;
   background:   #fff;
   padding:      24px;
   border:       1px solid #9dba4f;
@@ -28,7 +38,7 @@ ul li {
   padding:      10px;
   border:       1px solid #9dba4f;
   margin-left: auto ;
-  margin-right: auto ;	
+  margin-right: auto ;
 }
 
 h1 {
@@ -57,8 +67,8 @@ ul, li {
 .tooltip{ position: absolute; top: 0; left: 0; z-index: 3; display: none; }
 
 #publicPoolWrapper {
-	clear: right;
-	float: right;
+  clear: right;
+  float: right;
         background-color: #ddfae0;
 }
 
@@ -67,8 +77,8 @@ ul, li {
 }
 
 #clientListWrapper {
-	clear: right;
-	float: right;
+  clear: right;
+  float: right;
         background-color: #ddfae0;
 }
 
@@ -85,8 +95,8 @@ ul, li {
 }
 
 #myDragonPoolWrapper {
-	clear: left;
-	float: left;
+  clear: left;
+  float: left;
        background-color:   #ddfae0;
 }
 
@@ -95,9 +105,9 @@ ul, li {
 }
 
 #dragonBreedingWrapper {
-	clear: left;
-	float: left;
-		background-color:   #ddfae0;
+  clear: left;
+  float: left;
+    background-color:   #ddfae0;
 }
 
 #dragonBreeding {
@@ -109,26 +119,26 @@ ul, li {
 }
 
 dl {
-	border: 3px double #ccc;
-	padding: 0.5em;
-	background-color: white;
+  border: 3px double #ccc;
+  padding: 0.5em;
+  background-color: white;
 }
 
 dt {
-	float: left;
-	clear: left;
-	width: 40%;
-	text-align: right;
-	font-weight: bold;
-	color: green;
+  float: left;
+  clear: left;
+  width: 40%;
+  text-align: right;
+  font-weight: bold;
+  color: green;
 }
 
 dt:after {
-	content: ":";
+  content: ":";
 }
 
 dd {
-	margin: 0 0 0 110px;
-	padding: 0.1em 1em 0.1em 0;
-	text-align: right;
+  margin: 0 0 0 110px;
+  padding: 0.1em 1em 0.1em 0;
+  text-align: right;
 }
