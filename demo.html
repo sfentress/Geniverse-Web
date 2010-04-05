@@ -36,14 +36,17 @@
             jQuery.facebox("Loading...");
             $('#loading').show();
             setTimeout(function(){
-                GenChatService.findChannelWithLeastClients(["/A", "/B"], function(channel){
+                GenChatService.findChannelWithLeastClients(["/Smaug", "/Norbert"], function(channel){
                     GenChatService.unsubscribe(startChannel);
                     currentChannel = GenChatService.subscribe(channel);
                     GenChatService.subscribeToAdminChannel(channel);
-                    $('h2').append(" "+currentChannel);
+                    channelTitle = currentChannel;
+                    if (channelTitle.slice(0,1) == "/")
+                        channelTitle = channelTitle.substring(1);
+                    $('#streamContainerWrapper').find('label').append(": <span id='title'>"+channelTitle+"</span>");
                     GenView.setOrgPostingChannel(currentChannel + "org");
 
-                    alleleString = (channel == "/A") ? "a:h,b:h" : "a:H,b:H";
+                    alleleString = (channel == "/Smaug") ? "a:h,b:h" : "a:H,b:H";
                     addDragonPair();
                     $('#createDragons').unbind('click');
                     $('#createDragons').click(function(){
@@ -69,7 +72,7 @@
 
   <h2><em>Geniverse</em> | dragon chat demo</h2>
 
-  <form id="enterUsername">
+  <form id="enterUsername" style="width: 400;">
     <label for="username">Pick a username</label>
     <input type="text" name="username" id="username">
     <input type="submit" value="Go">

@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <title>Faye demo: chat client</title>
+  <title>Geniverse Dashboard</title>
   <script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>
 
   <script src="/chat/comet.js" type="text/javascript"></script>
@@ -12,7 +12,7 @@
   <script src="lib/geniverse-view-service.js" type="text/javascript"></script>
 
   <script type="text/javascript">
-    var allChannels = ["A", "B"];
+    var allChannels = ["Smaug", "Norbert"];
 
     $(function(){
        $('#left').find('h3').html(allChannels[0]);
@@ -49,11 +49,35 @@
                 messageString = '<div><img style="float: left; margin: 5px;" src="'+message.messageObject.image+'" width="55" height="55">' + messageString + '</div>';
                 $('#'+self._list).append('<li style="overflow: auto;">' + messageString + '</li>');
                 $('#streamContainer').animate({ scrollTop: this._stream.height() }, 1000);
-                $('#log').append(self._channel + "|"+message.user+"|"+message.message+"<br>");
+                dragonString = (message.messageObject != null && message.messageObject != undefined) ? message.messageObject.dragon.characteristics.array : "";
+                $('#log').append(self._channel + "|"+message.user+"|"+message.message+"|"+dragonString+"<br>");
              });
        }
        new setupChatListener(allChannels[0], "left-stream")
        new setupChatListener(allChannels[1], "right-stream")
+
+       setupChatSender = function(channel, messageArea, button){
+           var self = this;
+           self._channel = GenChatService.validate(channel);
+           self._messageArea = $('#'+messageArea);
+           self.submit = function(){
+               msg = self._messageArea.val();
+               message = {user: "Admin", message: msg, "admin": true};
+               Chat.post(message, self._channel);
+               self._messageArea.val('');
+           }
+           $('#'+button).click(function(){
+               self.submit();
+           });
+           self._messageArea.keypress(function (e) {
+                if (e.keyCode != 13)
+                 return;
+               e.preventDefault();
+               self.submit();
+             });
+       }
+       new setupChatSender(allChannels[0], 'left-message', 'left-submit');
+       new setupChatSender(allChannels[1], 'right-message', 'right-submit');
 
     });
 
@@ -120,6 +144,9 @@
                         <ul id="left-stream">
                         </ul>
                         </div>
+                        <label for="message">Post a message</label><br/>
+                        <textarea name="message" id="left-message" rows="3" style="width: 250;"></textarea><br/>
+                        <button idd="left-submit">Chat</button>
                     </td>
                     <td>
                         <label>Members</label>
@@ -146,6 +173,9 @@
                           <ul id="right-stream">
                           </ul>
                           </div>
+                          <label for="message">Post a message</label><br/>
+                          <textarea name="message" id="right-message" rows="3" style="width: 250;"></textarea><br/>
+                          <button idd="right-submit">Chat</button>
                       </td>
                       <td>
                           <label>Members</label>
@@ -172,8 +202,6 @@
           <div id="log" style="clear: right; height: 200; width: 500; overflow: auto; background-color: #FFFFFF;">
           </div>
     </div>
-      <script type="text/javascript">
-      </script>
     </div>
 </body>
 </html>
