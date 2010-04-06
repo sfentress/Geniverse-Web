@@ -33,26 +33,29 @@
         $('#enterUsername').submit(function() {
             jQuery.facebox("Loading...");
             $('#loading').show();
+            var initted = false;
             setTimeout(function(){
                 GenChatService.findChannelWithLeastClients(["/Smaug", "/Norbert"], function(channel){
-                    GenChatService.unsubscribe(startChannel);
-                    currentChannel = GenChatService.subscribe(channel);
-                    GenChatService.subscribeToAdminChannel(channel);
-                    channelTitle = currentChannel;
-                    if (channelTitle.slice(0,1) == "/")
-                        channelTitle = channelTitle.substring(1);
-                    $('#streamContainerWrapper').find('label').append(": <span id='title'>"+channelTitle+"</span>");
-                    GenView.setOrgPostingChannel(currentChannel + "org");
+                    if (!initted){
+                        GenChatService.unsubscribe(startChannel);
+                        currentChannel = GenChatService.subscribe(channel);
+                        GenChatService.subscribeToAdminChannel(channel);
+                        channelTitle = currentChannel;
+                        if (channelTitle.slice(0,1) == "/")
+                            channelTitle = channelTitle.substring(1);
+                        $('#streamContainerWrapper').find('label').append(": <span id='title'>"+channelTitle+"</span>");
+                        GenView.setOrgPostingChannel(currentChannel + "org");
 
-                    alleleString = (channel == "/Smaug") ? "a:h,b:h" : "a:H,b:H";
-                    addDragonPair();
-                    $('#createDragons').unbind('click');
-                    $('#createDragons').click(function(){
+                        alleleString = (channel == "/Smaug") ? "a:h,b:h" : "a:H,b:H";
                         addDragonPair();
-                    })
-                    jQuery(document).trigger('close.facebox')
+                        $('#createDragons').unbind('click');
+                        $('#createDragons').click(function(){
+                            addDragonPair();
+                        })
+                        jQuery(document).trigger('close.facebox')
+                        initted = true;
+                    }
                 });
-
             },200);
         });
     })
