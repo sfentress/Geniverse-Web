@@ -27,8 +27,6 @@
     var alleleString;
     GenView.init(function(){
         startChannel = GenChatService.initChat();
-
-        init2();
     });
 
     $(function(){
@@ -60,8 +58,8 @@
     })
 
     function addDragonPair(){
-        addDragon(alleleString, 0);
-        addDragon(alleleString, 1);
+        GenView.addDragon(alleleString, 0);
+        GenView.addDragon(alleleString, 1);
     }
   </script>
 
