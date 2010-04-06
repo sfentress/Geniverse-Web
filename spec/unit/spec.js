@@ -226,6 +226,33 @@ describe 'Geniverse-View-Service'
       end
     end
 
+    describe "Public Dragon Pool"
+        before_each
+            stub(jQuery.fn, "height").and_return("");
+            stub(jQuery.fn, "animate").and_return("");
+
+            GenView.allDragons = {}
+            GenView.mySelectedDragon = null;
+            GenView.mother = null;
+            GenView.father = null;
+
+            $('body').append($('<div id="test">'));
+            publicPoolWrapper = $('<div id="publicPoolWrapper">');
+            $('#test').append(publicPoolWrapper);
+            poolWrapper = $('<div id="myDragonPoolWrapper">');
+            $('#test').append(poolWrapper);
+            GenView.loadViews(fixture('geniverse-views.html'));
+        end
+
+        after_each
+            $('#test').remove();
+        end
+
+        it 'can create a public pool view'
+              $('#publicPool').html().should.not.be null
+          end
+    end
+
     describe "DragonBundle"
         before_each
             stub(jQuery.fn, "height").and_return("");
