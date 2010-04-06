@@ -19,6 +19,11 @@ function generateDragonWithSex(sex, callback){
     callback(org);
 }
 
+function breedDragon(x, y, callback){
+    var org = createMockGOrganism();
+    callback(org);
+}
+
 function createMockGOrganism(){
     var gOrganism = new Object();
     var rand = Math.floor(Math.random() * 10000);
@@ -26,10 +31,9 @@ function createMockGOrganism(){
     gOrganism.alleles = "test"+rand;
     gOrganism.sex = "test"+rand;
     gOrganism.imageURL = "test"+rand;
-    // gOrganism.metaInfo = {
-    //         put: function(){}
-    //     };
-    //     gOrganism.metaInfo.stringMap = {};      // this should be retired when metaInfo is fixed
+    gOrganism.characteristics = {
+        array: ["Alive"]
+    }
     return gOrganism;
 }
 
@@ -39,4 +43,8 @@ function jsonSize(jsonObject){
 	      size++;
 	  });
 	 return size;
+}
+
+function Image(){
+    this.src = null;
 }
