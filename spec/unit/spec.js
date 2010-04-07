@@ -252,6 +252,123 @@ describe 'Geniverse-View-Service'
               $('#publicPool').html().should.not.be null
           end
     end
+    
+    describe "Dragon Filter"
+        before_each
+            stub(jQuery.fn, "height").and_return(20);
+            stub(jQuery.fn, "width").and_return(20);
+            stub(jQuery.fn, "animate").and_return("");
+            jQuery.fn.stubSetChecked = function(){
+                $(this).attr("checked", true);
+            }
+            jQuery.fn.stubClick = function(){
+                $(this).attr("checked", !$(this).attr("checked"));
+            }
+            
+            GenView.allDragons = {}
+            GenView.mySelectedDragon = null;
+            GenView.mother = null;
+            GenView.father = null;
+
+            $('body').append($('<div id="test">'));
+            poolWrapper = $('<div id="myDragonPoolWrapper">');
+            $('#test').append(poolWrapper);
+            GenView.loadViews(fixture('geniverse-views.html'));
+        end
+
+        after_each
+            $('#test').remove();
+            $('#dragonFilter').remove();
+        end
+
+        it 'public pool view has a filter button'
+              $('.filterButton').html().should.not.be null
+        end
+        
+        it 'pressing filter button opens filter window'
+            $('#dragonFilter').html().should.be null
+            $('.filterButton').click();
+            $('#dragonFilter').html().should.not.be null
+        end
+        
+        it 'all filters start out checked'
+            $('.filterButton').click();
+            $('#dragonFilter').find('input').each(function(i, val){
+                // *** neither of these work in env.js ***
+                // val.checked.should.be true
+                // $(this).attr('checked').should.be true
+                
+                // so we fake it... (necessary for later)
+                $(this).stubSetChecked();
+                $(this).attr('checked').should.be true
+            })
+        end
+        
+        it 'clicking "do filter" button makes filter window disappear'
+            $('.filterButton').click();
+            $('#dragonFilter').should.be_visible
+            $('#doFilter').click();
+            $('#dragonFilter').should.be_hidden
+        end
+        
+        it 'can filter existing dragons'
+            // setup pool with 1 dragon with wings and 1 without
+            $('#createDragons').click();
+            ids = []
+            jQuery.each(GenView.allDragons, function(i, val){
+                ids.push(val.id);
+            })
+            wingDragon = GenView.allDragons[ids[0]]
+            noWingDragon = GenView.allDragons[ids[1]]
+            
+            wingDragon.dragon.characteristics.array.push("Single Wings");
+            noWingDragon.dragon.characteristics.array.push("No Wings");
+            
+            // test filter
+            $('.filterButton').click();
+            $('#dragonFilter').should.be_visible
+            
+            $('#dragonFilter').find('input').each(function(i, val){
+                // set everything checked
+                $(this).stubSetChecked();
+            })
+            
+            var wingsFilter
+            var noWingsFilter
+            $('#dragonFilter').find('input').each(function(i, val){
+                if (val.value == "Single Wings"){
+                    wingsFilter = $(this);
+                } else if (val.value = "No Wings"){
+                    noWingsFilter = $(this);
+                }
+            })
+            wingsFilter.attr('checked').should.be true
+            wingsFilter.stubClick();        // uncheck "Wings"
+            wingsFilter.attr('checked').should.be false
+            $('#doFilter').click();
+            
+            // (img ids are same as dragon ids)
+            $('#'+wingDragon.id).should.be_hidden
+            $('#'+noWingDragon.id).should.be_visible
+            
+            
+            $('.filterButton').click();
+            wingsFilter.stubClick();        // check "Wings"
+            noWingsFilter.stubClick();        // uncheck "No Wings"
+            $('#doFilter').click();
+            
+            $('#'+wingDragon.id).should.be_visible
+            $('#'+noWingDragon.id).should.be_hidden
+            
+            $('.filterButton').click();
+            wingsFilter.stubClick();        // uncheck "Wings" (both unchecked now)
+            $('#doFilter').click();
+            
+            $('#'+wingDragon.id).should.be_hidden
+            $('#'+noWingDragon.id).should.be_hidden
+            
+        end
+    end
 
     describe "DragonBundle"
         before_each
