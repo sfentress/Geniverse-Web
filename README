@@ -1,1 +1,25 @@
 Light-weight Geniverse work
+===========================
+
+
+4/7/2010
+========
+
+There are three main script files, geniverse-view-service.js, geniverse-chat-service.js, and geniverse-gwt.js.
+
+The main one is geniverse-view-service, which is responsible for setting up the initial views, adding listeners to everything, and managing all of the user interactions: button clicks, image clicks etc.
+
+geniverse-chat-service is a wrapper for the Faye Chat stuff. It allows you to subscribe to channels, pseudo-unsubscribe, and find channels (e.g. find channel with fewest clients). Many of the functions call functions in /chat/geniverse-chat.js, which is itself a wrapper. Possibly geniverse-chat.js should be depricated. Also, the view code contained in geniverse-chat (showing the username window, etc.) should probably go in geniverse-view-service
+
+geniverse-gwt is a wrapper for the GWT api, with a couple extra functions.
+
+Setup of individual pages (e.g. demo.html) is still done with a short script in the page itself. I would think we would want this script to become shorter over time, as more functionality is transfered into the libraries.
+
+Red flags/Problems:
+-------------------
+
+* The GWT server appears to be flaky. About 20% of the time that I try to load a page such as demo.html, the page hangs and the console complains that some variable in one of the gwt scripts in null (or some variation of that). Refreshing eventually makes that go away. Also, GWT server seems to completely die occasionally while claiming that it is still running -- restarting fixes it.
+
+* Still can't correctly unsubscribe from any channel. In current demo.html work, we fake this by simply preventing new chats from going to that channel.
+
+* Safari generally hangs after loading page. It looks like maybe the long-polling makes it thing that the page has not yet fully loaded. Buttons end up not working (though it seems that sometimes waiting long enough makes it work). Sometimes Safari works fine first try.

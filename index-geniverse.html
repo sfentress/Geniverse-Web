@@ -23,42 +23,49 @@
   <link rel="stylesheet" href="css/facebox.css" type="text/css" media="screen">
 
   <script type="text/javascript">
-    var startChannel;
-    var alleleString;
-    GenView.init(function(){
-        startChannel = GenChatService.initChat();
+  var startChannel;
+  var alleleString;
+  GenView.init(function(){
+      startChannel = GenChatService.initChat();
+  });
 
-        init2();
-    });
+  $(function(){
+      $('#enterUsername').submit(function() {
+          jQuery.facebox("Loading...");
+          $('#loading').show();
+          var initted = false;        // sometimes we log into multiple channels at once -- this prevents that
+          setTimeout(function(){
+              GenChatService.findChannelWithLeastClients(["/dev-Smaug", "/dev-Norbert"], function(channel){
+                  if (!initted){
+                      GenChatService.unsubscribe(startChannel);
+                      currentChannel = GenChatService.subscribe(channel);
+                      GenChatService.subscribeToAdminChannel(channel);
+                      channelTitle = currentChannel;
+                      if (channelTitle.slice(0,1) == "/")
+                          channelTitle = channelTitle.substring(1);
+                      $('#streamContainerWrapper').find('label').append(": <span id='title'>"+channelTitle+"</span>");
+                      GenView.setOrgPostingChannel(currentChannel + "org");
 
-    $(function(){
-        $('#enterUsername').submit(function() {
-            jQuery.facebox("Loading...");
-            $('#loading').show();
-            setTimeout(function(){
-                GenChatService.findChannelWithLeastClients(["/dev-NoHorns", "/dev-2Horns"], function(channel){
-                    GenChatService.unsubscribe(startChannel);
-                    currentChannel = GenChatService.subscribe(channel);
-                    $('h1').append(currentChannel);
-                    GenView.setOrgPostingChannel(currentChannel + "org");
+                      alleleString = (channel == "/dev-Smaug") ? "a:h,b:h" : "a:H,b:H";
+                      addDragonPair();
+                      $('#createDragons').unbind('click');
+                      $('#createDragons').click(function(){
+                          addDragonPair();
+                      })
 
-                    alleleString = (channel == "/dev-NoHorns") ? "a:h,b:h" : "a:H,b:H";
-                    addDragonPair();
-                    $('#createDragons').unbind('click');
-                    $('#createDragons').click(function(){
-                        addDragonPair();
-                    })
-                    jQuery(document).trigger('close.facebox')
-                });
+                      // if we get to here, both Chat and GWT are happy
+                      jQuery(document).trigger('close.facebox')
+                      initted = true;
+                  }
+              });
+          },200);
+      });
+  })
 
-            },200);
-        });
-    })
-
-    function addDragonPair(){
-        addDragon(alleleString, 0);
-        addDragon(alleleString, 1);
-    }
+  function addDragonPair(){               // the functionality of having a base allele string may be basic enough to go into geniverse-gwt.js
+      GenView.addDragon(alleleString, 0);
+      GenView.addDragon(alleleString, 1);
+  }
   </script>
 
 
@@ -81,9 +88,6 @@
       <div id="clientListWrapper"></div>
       <div id="messagingWrapper" style="text-align: center;"></div>
   </div>
-
-  <script type="text/javascript">
-  </script>
 </div>
 </body>
 </html>

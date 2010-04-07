@@ -33,7 +33,7 @@
         $('#enterUsername').submit(function() {
             jQuery.facebox("Loading...");
             $('#loading').show();
-            var initted = false;
+            var initted = false;        // sometimes we log into multiple channels at once -- this prevents that
             setTimeout(function(){
                 GenChatService.findChannelWithLeastClients(["/Smaug", "/Norbert"], function(channel){
                     if (!initted){
@@ -52,6 +52,8 @@
                         $('#createDragons').click(function(){
                             addDragonPair();
                         })
+
+                        // if we get to here, both Chat and GWT are happy
                         jQuery(document).trigger('close.facebox')
                         initted = true;
                     }
@@ -60,7 +62,7 @@
         });
     })
 
-    function addDragonPair(){
+    function addDragonPair(){               // the functionality of having a base allele string may be basic enough to go into geniverse-gwt.js
         GenView.addDragon(alleleString, 0);
         GenView.addDragon(alleleString, 1);
     }
