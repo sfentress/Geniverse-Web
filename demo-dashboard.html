@@ -62,8 +62,30 @@
            self._messageArea = $('#'+messageArea);
            self.submit = function(){
                msg = self._messageArea.val();
-               message = {user: "Admin", message: msg, "admin": true};
-               Chat.post(message, self._channel);
+
+               if (msg.search(/Goal:[ ]*/i) > -1){
+                   var array = msg.split(/Goal:[ ]*/i)
+                   var goal = array[array.length-1];
+
+                   var command = new GenChatService.Command();
+                   command.newGoal = goal;
+                   GenChatService.postAdminCommand(self._channel, command)  // doesn't do anything yet
+
+                   message = "New goal: "+goal;
+                   message = {user: "Admin", message: message, admin: true};
+                   GenChatService.post(self._channel, message);
+               } else if (msg.search("Alleles:" > -1)){
+                   var array = msg.split(/Alleles:[ ]*/i)
+                   var alleles = array[array.length-1];
+                   alleles = alleles.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+                   var command = new GenChatService.Command();
+                   command.newAlleles = alleles;
+                   GenChatService.postAdminCommand(self._channel, command)  // doesn't do anything yet
+               } else {
+                   message = {user: "Admin", message: msg, admin: true};
+                   GenChatService.post(self._channel, message);
+               }
+
                self._messageArea.val('');
            }
            $('#'+button).click(function(){
@@ -198,6 +220,12 @@
           <button id="merge">Merge rooms</button><br>
       </div>
       <div style="text-align: left;">
+           <p style="background-color: #DEE1FC; padding: 3px;">
+              To change the goal in any room, type a chat starting with "Goal: ___".<br>
+              <span style="position: relative; left: 30px">E.g.: "<span style="font-family:monospace;">Goal: Create a dragon with wings</span>"</span><br>
+              To change the base allele string in any room, type a chat starting with "Alleles: ___".<br>
+              <span style="position: relative; left: 30px">E.g.: "<span style="font-family:monospace;">Alleles: a:h,b:h</span>"</span>
+          </p>
           Log:
           <div id="log" style="clear: right; height: 200; width: 500; overflow: auto; background-color: #FFFFFF;">
           </div>
