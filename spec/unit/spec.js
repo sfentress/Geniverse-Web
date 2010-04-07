@@ -304,7 +304,7 @@ describe 'Geniverse-View-Service'
             })
         end
         
-        it 'clicking "do filter" button makes filter window disappear'
+        it 'clicking doFilter button makes filter window disappear'
             $('.filterButton').click();
             $('#dragonFilter').should.be_visible
             $('#doFilter').click();
